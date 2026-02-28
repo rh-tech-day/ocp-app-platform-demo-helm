@@ -1,0 +1,77 @@
+{{- if .Values.tpa.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+{{ include "app-of-apps.metadata" (dict "name" .Values.tpa.name "namespace" .Values.argocd.namespace "syncWave" "2") }}
+spec:
+  destination:
+    namespace: {{ .Values.tpa.namespace }}
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: trusted-profile-analyzer
+    repoURL: {{ .Values.gitops.repoURL }}
+    targetRevision: {{ .Values.gitops.targetRevision }}
+    helm:
+      valuesObject:
+        tpa-prerequisites:
+          pgsql:
+            user: {{ .Values.tpa.postgresql.user }}
+            password: {{ .Values.tpa.postgresql.password | quote }}
+            database: {{ .Values.tpa.postgresql.database }}
+          oidc:
+            tpaCli:
+              secret: {{ .Values.keycloak.client.tpaCli.secret | quote }}
+        tpa-app:
+          redhat-trusted-profile-analyzer:
+            appDomain: {{ .Values.tpa.appDomain }}
+            storage:
+              type: s3
+              accessKey:
+                valueFrom:
+                  secretKeyRef:
+                    name: trustify
+                    key: AWS_ACCESS_KEY_ID
+              secretKey:
+                valueFrom:
+                  secretKeyRef:
+                    name: trustify
+                    key: AWS_SECRET_ACCESS_KEY
+              bucket: trustify
+              region: {{ .Values.tpa.s3.region }}
+            database:
+              host: tpa-postgresql
+              name: {{ .Values.tpa.postgresql.database }}
+              username: {{ .Values.tpa.postgresql.user }}
+              password:
+                valueFrom:
+                  secretKeyRef:
+                    name: tpa-postgresql
+                    key: database-password
+              port: "5432"
+              sslMode: disable
+            oidc:
+              issuerUrl: {{ .Values.tpa.oidcIssuer }}
+              clients:
+                frontend:
+                  clientId: tpa-frontend
+                cli:
+                  clientId: tpa-cli
+                  clientSecret:
+                    valueFrom:
+                      secretKeyRef:
+                        name: oidc-tpa-cli
+                        key: client-secret
+            modules:
+              createDatabase:
+                enabled: true
+              migrateDatabase:
+                enabled: true
+              createImporters:
+                enabled: true
+                importers:
+                  cve:
+                    disabled: false
+                  osv-github:
+                    disabled: false
+{{ include "app-of-apps.syncPolicy" . | indent 2 }}
+{{- end }}

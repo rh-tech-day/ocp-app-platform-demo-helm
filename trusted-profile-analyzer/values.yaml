@@ -1,0 +1,61 @@
+tpa-prerequisites:
+  pgsql:
+    user: trustify
+    password: trustify
+    database: trustify
+  oidc:
+    tpaCli:
+      secret: ""
+
+tpa-app:
+  redhat-trusted-profile-analyzer:
+    appDomain: ""
+    storage:
+      type: s3
+      accessKey:
+        valueFrom:
+          secretKeyRef:
+            name: trustify
+            key: AWS_ACCESS_KEY_ID
+      secretKey:
+        valueFrom:
+          secretKeyRef:
+            name: trustify
+            key: AWS_SECRET_ACCESS_KEY
+      bucket: trustify
+      region: ""
+    database:
+      host: tpa-postgresql
+      name: trustify
+      username: trustify
+      password:
+        valueFrom:
+          secretKeyRef:
+            name: tpa-postgresql
+            key: database-password
+      port: "5432"
+      sslMode: disable
+    oidc:
+      issuerUrl: ""
+      clients:
+        frontend:
+          clientId: tpa-frontend
+        cli:
+          clientId: tpa-cli
+          clientSecret:
+            valueFrom:
+              secretKeyRef:
+                name: oidc-tpa-cli
+                key: client-secret
+    modules:
+      createDatabase:
+        enabled: true
+      migrateDatabase:
+        enabled: true
+      createImporters:
+        enabled: true
+        importers:
+          cve:
+            disabled: false
+          osv-github:
+            disabled: false

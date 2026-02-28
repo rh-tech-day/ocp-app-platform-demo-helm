@@ -1,6 +1,6 @@
 gitops:
-  repoURL: https://github.com/evanshortiss/etx-app-platform-helm.git
-  targetRevision: main
+  repoURL: https://github.com/markusjnagel/ocp-app-platform-demo-helm.git
+  targetRevision: feat-tpa-install
 
 argocd:
   namespace: openshift-gitops
@@ -93,6 +93,9 @@ keycloak:
       name: openshift
       redirectUri: ""
       secret: ""
+    tpaCli:
+      name: tpa-cli
+      secret: ""
   users:
     password: ""
 
@@ -163,6 +166,19 @@ rhdh:
       values:
         git:
           host: ""
+
+tpa:
+  enabled: true
+  name: trusted-profile-analyzer
+  namespace: trusted-profile-analyzer
+  appDomain: ""
+  oidcIssuer: ""
+  postgresql:
+    user: trustify
+    database: trustify
+    password: ""
+  s3:
+    region: ""
 
 rhtas:
   name: trusted-artifact-signer

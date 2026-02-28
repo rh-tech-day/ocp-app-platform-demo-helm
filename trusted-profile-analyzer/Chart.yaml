@@ -1,0 +1,13 @@
+apiVersion: v2
+name: trusted-profile-analyzer
+description: Trusted Profile Analyzer (TPA/Trustify) umbrella chart
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: tpa-prerequisites
+    version: 0.1.0
+    repository: file://charts/tpa-prerequisites
+  - name: tpa-app
+    version: 0.1.0
+    repository: file://charts/tpa-app
