@@ -176,7 +176,7 @@ tpa:
   postgresql:
     user: trustify
     database: trustify
-    password: ""
+    password: trustify
   s3:
     region: ""
 
