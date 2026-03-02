@@ -38,6 +38,9 @@ spec:
     helm:
       valuesObject:
         appDomain: {{ .Values.tpa.appDomain }}
+        openshift:
+          enabled: true
+          useServiceCa: true
         storage:
           type: s3
           accessKey:
