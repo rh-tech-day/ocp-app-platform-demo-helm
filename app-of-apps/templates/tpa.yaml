@@ -34,7 +34,7 @@ spec:
   source:
     chart: redhat-trusted-profile-analyzer
     repoURL: https://charts.openshift.io/
-    targetRevision: "1.1.1"
+    targetRevision: "1.2.1"
     helm:
       valuesObject:
         appDomain: {{ .Values.tpa.appDomain }}
