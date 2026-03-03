@@ -1,0 +1,9 @@
+dependencies:
+- name: acs-operator
+  repository: file://acs-operator
+  version: 0.1.0
+- name: acs-instance
+  repository: file://acs-instance
+  version: 0.1.0
+digest: sha256:eedd8745ca8701e04617b186169518bab1e316e0e678b8d908371b505d8b022c
+generated: "2026-03-03T16:28:10.989746072+01:00"

@@ -190,6 +190,12 @@ amqStreams:
   name: amq-streams
   namespace: kafka
 
+acs:
+  enabled: true
+  name: acs
+  namespace: stackrox
+  clusterName: local-cluster
+
 parasolRbac:
   name: parasol-rbac
   namespace: parasol-insurance-dev

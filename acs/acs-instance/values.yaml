@@ -1,0 +1,7 @@
+nameOverride: ""
+
+clusterName: local-cluster
+
+argocd:
+  enabled: true
+  syncwave: "2"

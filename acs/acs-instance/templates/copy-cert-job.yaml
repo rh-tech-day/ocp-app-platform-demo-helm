@@ -1,0 +1,43 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: copy-ingress-cert
+  namespace: stackrox
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  template:
+    spec:
+      serviceAccountName: copy-ingress-cert
+      restartPolicy: OnFailure
+      containers:
+        - name: copy-cert
+          image: registry.redhat.io/openshift4/ose-cli:latest
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              echo "Copying default ingress certificate to stackrox namespace..."
+
+              # Check if the target secret already exists
+              if oc get secret central-default-tls-cert -n stackrox &>/dev/null; then
+                echo "Secret central-default-tls-cert already exists, skipping"
+                exit 0
+              fi
+
+              # Read the default ingress certificate
+              TLS_CRT=$(oc get secret router-certs-default -n openshift-ingress -o jsonpath='{.data.tls\.crt}')
+              TLS_KEY=$(oc get secret router-certs-default -n openshift-ingress -o jsonpath='{.data.tls\.key}')
+
+              if [ -z "$TLS_CRT" ] || [ -z "$TLS_KEY" ]; then
+                echo "ERROR: Could not read router-certs-default from openshift-ingress"
+                exit 1
+              fi
+
+              # Create the TLS secret in stackrox namespace
+              oc create secret tls central-default-tls-cert \
+                --cert=<(echo "$TLS_CRT" | base64 -d) \
+                --key=<(echo "$TLS_KEY" | base64 -d) \
+                -n stackrox
+
+              echo "Certificate copied successfully"
