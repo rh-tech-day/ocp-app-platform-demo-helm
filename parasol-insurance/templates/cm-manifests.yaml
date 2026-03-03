@@ -160,3 +160,16 @@ data:
               - 201
           when: _hook_id | length > 0
           ignore_errors: true
+
+        - name: Trigger initial prod build via tag push
+          ansible.builtin.uri:
+            url: "https://{{ $.Values.gitlab.host }}/api/v4/projects/{{ "{{" }} r_project.json.id {{ "}}" }}/hooks/{{ "{{" }} _hook_id {{ "}}" }}/test/tag_push_events"
+            method: POST
+            headers:
+              PRIVATE-TOKEN: "{{ "{{" }} lookup('env', 'GITLAB_TOKEN') {{ "}}" }}"
+            validate_certs: false
+            status_code:
+              - 200
+              - 201
+          when: _hook_id | length > 0
+          ignore_errors: true
