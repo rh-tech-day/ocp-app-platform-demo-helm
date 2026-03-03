@@ -161,6 +161,19 @@ data:
             - r_tag.status == 400
             - "'already exists' not in (r_tag.json | default({}) | string)"
 
+        - name: Wait for gitlab-credentials secret in build namespace
+          kubernetes.core.k8s_info:
+            api_version: v1
+            kind: Secret
+            name: gitlab-credentials
+            namespace: {{ $.Values.build.namespace }}
+          register: r_build_secret
+          retries: 60
+          delay: 10
+          until:
+            - r_build_secret.resources | length > 0
+            - r_build_secret.resources[0].data.token is defined
+
         - name: Trigger initial dev build (push to EL)
           ansible.builtin.uri:
             url: "{{ "{{" }} _el_url {{ "}}" }}"
@@ -177,7 +190,10 @@ data:
             status_code:
               - 201
               - 202
-          ignore_errors: true
+          register: r_push_trigger
+          retries: 3
+          delay: 10
+          until: r_push_trigger is not failed
 
         - name: Trigger initial prod build (tag push to EL)
           ansible.builtin.uri:
@@ -195,4 +211,8 @@ data:
             status_code:
               - 201
               - 202
-          ignore_errors: true
+          register: r_tag_trigger
+          retries: 3
+          delay: 10
+          until: r_tag_trigger is not failed
+          register: r_trigger
