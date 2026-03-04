@@ -43,6 +43,7 @@ spec:
     containerBuildConfiguration:
       openShiftSecurityContextConstraint: container-build
     disableContainerBuildCapabilities: false
+    disableContainerRunCapabilities: false
     defaultEditor: {{ .Values.devEnvironments.defaultEditor }}
     defaultNamespace:
       autoProvision: true

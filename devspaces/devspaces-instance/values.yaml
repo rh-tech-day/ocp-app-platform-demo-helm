@@ -21,8 +21,8 @@ imagePuller:
   images:
     - name: project-clone
       image: registry.redhat.io/devworkspace/devworkspace-project-clone-rhel9@sha256:08c68ecad59b719c3e72c36a0dde0eff5c886d9d8d4024383677eab3db7c2220
-    - name: universal-developer-image
-      image: quay.io/devfile/universal-developer-image:ubi9-latest
+    - name: udi-rhel9
+      image: registry.redhat.io/devspaces/udi-rhel9:3.25
     - name: code-rhel9
       image: registry.redhat.io/devspaces/code-rhel9@sha256:5cd4fe568b4352bc5ef6ec0b16c3235fe515c2afb86fb076ed435cea65ea2247
     - name: traefik-rhel9
