@@ -10,4 +10,10 @@ spec:
     path: openvsx
     repoURL: {{ .Values.gitops.repoURL }}
     targetRevision: {{ .Values.gitops.targetRevision }}
+    helm:
+      parameters:
+        - name: build.git.uri
+          value: {{ .Values.gitops.repoURL }}
+        - name: build.git.ref
+          value: {{ .Values.gitops.targetRevision }}
 {{ include "app-of-apps.syncPolicy" . | indent 2 }}
