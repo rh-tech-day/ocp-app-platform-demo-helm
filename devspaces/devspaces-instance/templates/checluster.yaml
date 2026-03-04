@@ -42,6 +42,8 @@ spec:
         memory: {{ .Values.devEnvironments.resources.limits.memory | quote }}
     containerBuildConfiguration:
       openShiftSecurityContextConstraint: container-build
+    containerRunConfiguration:
+      openShiftSecurityContextConstraint: container-run
     disableContainerBuildCapabilities: false
     disableContainerRunCapabilities: false
     defaultEditor: {{ .Values.devEnvironments.defaultEditor }}
