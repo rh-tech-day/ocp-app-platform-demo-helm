@@ -202,6 +202,10 @@ parasolInsurance:
   name: parasol-insurance
   namespace: parasol-insurance-dev
 
+openvsx:
+  name: openvsx
+  namespace: che-openvsx
+
 sonarqube:
   name: sonarqube
   namespace: sonarqube

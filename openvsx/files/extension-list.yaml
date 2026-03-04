@@ -1,0 +1,7 @@
+extensions:
+  - id: redhat.java
+  - id: continue.continue
+    version: 1.2.11
+  - id: redhat.vscode-yaml
+  - id: redhat.vscode-quarkus
+  - id: redhat.fabric8-analytics
