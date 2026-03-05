@@ -22,7 +22,6 @@ spec:
   cleanupPolicy:
     allowNoobaaDeletion: {{ .Values.cleanupPolicy.allowNoobaaDeletion }}
   dbType: {{ .Values.dbType }}
-  manualDefaultBackingStore: true
   endpoints:
     {{- toYaml .Values.endpoints | nindent 4 }}
   loadBalancerSourceSubnets:
