@@ -19,19 +19,7 @@ spec:
     {{- toYaml .Values.dbResources | nindent 4 }}
   dbVolumeResources:
     {{- toYaml .Values.dbVolumeResources | nindent 4 }}
-  defaultBackingStoreSpec:
-    type: pv-pool
-    pvPool:
-      numVolumes: {{ .Values.backingStore.numVolumes }}
-      storageClass: {{ .Values.backingStore.storageClass }}
-      resources:
-        requests:
-          storage: {{ .Values.backingStore.storageSize }}
-          cpu: {{ .Values.backingStore.resources.requests.cpu }}
-          memory: {{ .Values.backingStore.resources.requests.memory }}
-        limits:
-          cpu: {{ .Values.backingStore.resources.limits.cpu }}
-          memory: {{ .Values.backingStore.resources.limits.memory }}
+  manualDefaultBackingStore: true
   cleanupPolicy:
     allowNoobaaDeletion: {{ .Values.cleanupPolicy.allowNoobaaDeletion }}
   dbType: {{ .Values.dbType }}
