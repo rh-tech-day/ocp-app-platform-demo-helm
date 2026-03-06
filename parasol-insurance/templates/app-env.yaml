@@ -26,6 +26,13 @@ spec:
           host: {{ $.Values.registry.host }}
         cluster:
           subdomain: {{ $.Values.cluster.subdomain }}
+{{- if eq $env.name "prod" }}
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas
+{{- end }}
   syncPolicy:
     automated:
       prune: true
