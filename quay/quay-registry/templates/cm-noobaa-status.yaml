@@ -22,4 +22,38 @@ data:
           register: r_noobaa
           until: r_noobaa.resources.0.status.phase == "Ready"
           retries: 120
-          delay: 10 
+          delay: 10
+
+        - name: Wait for default BackingStore to be created
+          kubernetes.core.k8s_info:
+            api_version: noobaa.io/v1alpha1
+            kind: BackingStore
+            name: noobaa-default-backing-store
+            namespace: '{{ "{{" }} noobaa_namespace {{ "}}" }}'
+          register: r_backingstore
+          until:
+            - r_backingstore.resources | length > 0
+            - r_backingstore.resources[0].status is defined
+            - r_backingstore.resources[0].status.phase is defined
+            - r_backingstore.resources[0].status.phase == "Ready"
+          retries: 60
+          delay: 10
+
+        - name: Increase BackingStore agent pod resources
+          kubernetes.core.k8s:
+            api_version: noobaa.io/v1alpha1
+            kind: BackingStore
+            name: noobaa-default-backing-store
+            namespace: '{{ "{{" }} noobaa_namespace {{ "}}" }}'
+            merge_type: merge
+            definition:
+              spec:
+                pvPool:
+                  resources:
+                    requests:
+                      storage: 50Gi
+                      cpu: 250m
+                      memory: 1Gi
+                    limits:
+                      cpu: "1"
+                      memory: 4Gi
