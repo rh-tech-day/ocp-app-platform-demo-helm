@@ -14,6 +14,10 @@ spec:
       valuesObject:
         vault:
           namespace: {{ .Values.vault.namespace }}
+        quay:
+          host: {{ .Values.quay.host }}
+          username: {{ .Values.quay.adminUser }}
+          password: {{ .Values.quay.adminUserPassword | quote }}
   syncPolicy:
     automated: {}
     syncOptions:

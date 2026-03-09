@@ -2,3 +2,8 @@ vault:
   namespace: vault
 
 chainsNamespace: openshift-pipelines
+
+quay:
+  host: ""
+  username: quayadmin
+  password: ""
