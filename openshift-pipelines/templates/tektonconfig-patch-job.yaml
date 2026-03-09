@@ -76,8 +76,11 @@ spec:
               # Allow multiple PVCs per task pod. The default "workspaces" mode
               # rejects tasks that bind more than one PVC (e.g. sonar-scan with
               # source + maven-cache).
+              #
+              # Enable transparency log upload to the in-cluster Rekor server
+              # and deep inspection for per-task details in pipeline attestations.
               oc patch tektonconfig config --type merge \
-                -p '{"spec":{"pipeline":{"coschedule":"pipelineruns"}}}'
+                -p '{"spec":{"pipeline":{"coschedule":"pipelineruns"},"chain":{"transparency.enabled":"true","transparency.url":"http://rekor-server.{{ .Values.rhtas.namespace }}.svc","artifacts.pipelinerun.enable-deep-inspection":"true"}}}'
 
               echo "TektonConfig patched"
           resources:

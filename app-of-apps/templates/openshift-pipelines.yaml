@@ -10,6 +10,10 @@ spec:
     path: openshift-pipelines
     repoURL: {{ .Values.gitops.repoURL }}
     targetRevision: {{ .Values.gitops.targetRevision }}
+    helm:
+      valuesObject:
+        rhtas:
+          namespace: {{ .Values.rhtas.namespace }}
   syncPolicy:
     automated: {}
     retry:
