@@ -29,7 +29,7 @@ spec:
   devEnvironments:
     startTimeoutSeconds: {{ .Values.devEnvironments.startTimeoutSeconds }}
     secondsOfRunBeforeIdling: {{ .Values.devEnvironments.secondsOfRunBeforeIdling }}
-    maxNumberOfWorkspacesPerUser: {{ .Values.devEnvironments.maxNumberOfWorkspacesPerUser }}
+    maxNumberOfWorkspacesPerUser: {{ .Values.devEnvironments.maxNumberOfWorkspacesPerUser | quote }}
     defaultContainerResources:
       limits:
         cpu: {{ .Values.devEnvironments.resources.limits.cpu | quote }}
