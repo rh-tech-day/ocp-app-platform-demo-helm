@@ -8,7 +8,11 @@ devEnvironments:
   secondsOfRunBeforeIdling: -1
   secondsOfInactivityBeforeIdling: -1
   maxNumberOfWorkspacesPerUser: 5
+  maxNumberOfRunningWorkspacesPerUser: 5
   defaultEditor: che-incubator/che-code/latest
+  storage:
+    pvc:
+      pvcStrategy: per-workspace
   resources:
     limits:
       memory: 6Gi
