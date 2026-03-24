@@ -1,5 +1,5 @@
 gitops:
-  repoURL: https://github.com/redhat-ads-tech/ocp-app-platform-demo-helm.git
+  repoURL: https://github.com/rh-tech-day/ocp-app-platform-demo-helm.git
   targetRevision: main
 
 argocd:
@@ -133,7 +133,7 @@ developerHub:
   application:
     git:
       host: "github.com"
-      group: redhat-ads-tech
+      group: rh-tech-day
       repo: ocp-app-platform-demo-developer-hub-config
       revision: main
 
